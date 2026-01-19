@@ -29,7 +29,11 @@ function App() {
               dataProvider={ dataProvider }
               notificationProvider={ useNotificationProvider() }
               routerProvider={ routerProvider }
-              options={{ syncWithLocation: true, warnWhenUnsavedChanges: true, projectId: "JTLUE9-DcjzjH-fDBkFA" }}
+              options={{
+                  syncWithLocation: true,
+                  warnWhenUnsavedChanges: true,
+                  projectId: "JTLUE9-DcjzjH-fDBkFA"
+            }}
               resources={[
                   {
                       name: "dashboard",
