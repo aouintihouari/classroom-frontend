@@ -2,6 +2,11 @@ import { createDataProvider, CreateDataProviderOptions } from "@refinedev/rest"
 import { BACKEND_BASE_URL } from "@/constants";
 import { ListResponse } from "@/types";
 
+if(!BACKEND_BASE_URL)
+    throw new Error(
+        "BACKEND_BASE_URL is configured. Please set VITE_BACKEND_BASE_URL in your .env file."
+    );
+
 const options: CreateDataProviderOptions = {
   getList: {
       getEndpoint: ({ resource }) => resource,
@@ -22,7 +27,7 @@ const options: CreateDataProviderOptions = {
           return params;
       },
       mapResponse: async (response) => {
-        const payload: ListResponse = await response.json();
+        const payload: ListResponse = await response.clone().json();
         return payload.data ?? [];
       },
       getTotalCount: async (response) => {
