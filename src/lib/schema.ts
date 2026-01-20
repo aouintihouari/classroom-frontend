@@ -1,5 +1,7 @@
 import * as z from "zod";
 
+const validDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] as const;
+
 export const facultySchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
     email: z.string().email("Invalid email address"),
@@ -23,10 +25,13 @@ export const subjectSchema = z.object({
 });
 
 const scheduleSchema = z.object({
-    day: z.string().min(1, "Day is required"),
+    day: z.enum(validDays, { required_error: "Day is required" }),
     startTime: z.string().min(1, "Start time is required"),
     endTime: z.string().min(1, "End time is required"),
-});
+}).refine(
+    (data) => data.endTime > data.startTime,
+    { message: "End time must be after start time", path: ["endTime"] }
+);
 
 export const classSchema = z.object({
     name: z
@@ -52,7 +57,7 @@ export const classSchema = z.object({
     status: z.enum(["active", "inactive"]),
     bannerUrl: z
         .string({ required_error: "Class banner is required" })
-        .min(1, "Class banner is required"),
+        .url("Banner must be a valid URL"),
     bannerCldPubId: z
         .string({ required_error: "Banner reference is required" })
         .min(1, "Banner reference is required"),
