@@ -1,5 +1,5 @@
 import {BrowserRouter, Outlet, Route, Routes} from "react-router";
-import {BookIcon, Home} from "lucide-react";
+import {BookIcon, GraduationCap, Home} from "lucide-react";
 
 import { Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
@@ -18,6 +18,8 @@ import { Layout } from "@/components/refine-ui/layout/layout.tsx";
 import Dashboard from "@/pages/Dashboard.tsx";
 import SubjectsList from "@/pages/subjects/SubjectsList.tsx";
 import SubjectsCreate from "@/pages/subjects/SubjectsCreate.tsx";
+import ClassesList from "@/pages/classes/ClassesList.tsx";
+import ClassesCreate from "@/pages/classes/ClassesCreate.tsx";
 
 function App() {
   return (
@@ -45,6 +47,12 @@ function App() {
                       list:"/subjects",
                       create: "/subjects/create",
                       meta: { label: "Subjects",  icon: <BookIcon /> }
+                  },
+                  {
+                      name:"classes",
+                      list:"/classes",
+                      create: "/classes/create",
+                      meta: { label: "Classes",  icon: <GraduationCap /> }
                   }
               ]
             }>
@@ -58,6 +66,10 @@ function App() {
                     <Route path="subjects">
                         <Route index element={<SubjectsList />} />
                         <Route path="create" element={<SubjectsCreate />} />
+                    </Route>
+                    <Route path="classes">
+                        <Route index element={<ClassesList />} />
+                        <Route path="create" element={<ClassesCreate />} />
                     </Route>
                   </Route>
               </Routes>
