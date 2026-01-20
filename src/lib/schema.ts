@@ -1,5 +1,10 @@
 import * as z from "zod";
 
+const toMinutes = (value: string) => {
+    const [hours, minutes] = value.split(":").map(Number);
+    return hours * 60 + minutes;
+};
+
 export const facultySchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
     email: z.string().email("Invalid email address"),
@@ -26,7 +31,10 @@ const scheduleSchema = z.object({
     day: z.string().min(1, "Day is required"),
     startTime: z.string().min(1, "Start time is required"),
     endTime: z.string().min(1, "End time is required"),
-});
+}).refine(
+    (data) => toMinutes(data.endTime) > toMinutes(data.startTime),
+    { message: "End time must be after start time", path: ["endTime"] }
+);
 
 export const classSchema = z.object({
     name: z
