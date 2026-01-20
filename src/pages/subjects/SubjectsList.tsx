@@ -18,11 +18,10 @@ import { Subject } from "@/types";
 const SubjectsList = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedDepartment, setSelectedDepartment] = useState("all");
-
-    const departmentFilters = selectedDepartment === "all" ?
-        [] :
-        [{ field: "department",  operator: "eq" as const,  value: selectedDepartment }];
-    const searchFilters = searchQuery === "" ?
+    const departmentFilters = selectedDepartment !== "all" ?
+        [{ field: "department",  operator: "eq" as const,  value: selectedDepartment }] :
+        [];
+    const searchFilters = searchQuery !== "" ?
         [{ field: "name", operator: "contains" as const, value: searchQuery }] :
         []
 
@@ -51,7 +50,7 @@ const SubjectsList = () => {
             },
             {
                 id: "department",
-                accessorKey: "department",
+                accessorKey: "department.name",
                 size: 150,
                 header: () => <p className="column-title ml-2">Department</p>,
                 cell: ({ getValue }) =>
